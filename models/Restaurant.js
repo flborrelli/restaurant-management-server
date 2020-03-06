@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const restaurantSchema = new Schema({
   name: String,
   location: String,
-  chain: '',
+  chain: { type: Schema.Types.ObjectId, ref: 'Chain' },
 }, {
   timestamps: {
     createdAt: "created_at",

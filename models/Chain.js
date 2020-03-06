@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const chainSchema = new Schema({
   name: String,
-  restaurants: [],
+  restaurants: [{ type: Schema.Types.ObjectId, ref: 'Restaurant' }],
 }, {
   timestamps: {
     createdAt: "created_at",

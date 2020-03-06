@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
+const index = require('./routes/index');
 
 const app = express();
 
@@ -22,6 +23,9 @@ app.use(cors());
 
 //Log HTTP requests
 app.use(logger('dev'));
+
+//ROUTES
+app.use('/', index);
 
 
 //Backend PORT Listener
