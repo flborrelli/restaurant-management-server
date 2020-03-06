@@ -24,7 +24,7 @@ app.use(cors());
 //Log HTTP requests
 app.use(logger('dev'));
 
-//ROUTES
+//ROUTES Middleware
 app.use('/', index);
 
 

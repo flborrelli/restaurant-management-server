@@ -2,9 +2,15 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const restaurantSchema = new Schema({
-  name: String,
-  location: String,
-  chain: { type: Schema.Types.ObjectId, ref: 'Chain' },
+  name: {
+    type: String,
+    required: true,
+  },
+  location: {
+    type: String,
+    required: true,
+  },
+  chain: { type: Schema.Types.ObjectId, required: true, ref: 'Chain' },
 }, {
   timestamps: {
     createdAt: "created_at",
