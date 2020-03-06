@@ -10,7 +10,7 @@ const restaurantSchema = new Schema({
     type: String,
     required: true,
   },
-  chain: { type: Schema.Types.ObjectId, required: true, ref: 'Chain' },
+  chain: { type: String, required: true, ref: 'Chain' },
 }, {
   timestamps: {
     createdAt: "created_at",

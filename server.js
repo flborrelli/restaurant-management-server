@@ -6,6 +6,9 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const index = require('./routes/index');
+const restaurants = require('./routes/restaurants_routes')
+const chains = require('./routes/chain_routes');
+
 
 const app = express();
 
@@ -26,6 +29,9 @@ app.use(logger('dev'));
 
 //ROUTES Middleware
 app.use('/', index);
+app.use('/api/restaurants', restaurants);
+app.use('/api/chains', chains);
+
 
 
 //Backend PORT Listener
