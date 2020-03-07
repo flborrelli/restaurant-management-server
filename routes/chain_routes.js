@@ -2,15 +2,15 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const Chain = require('../models/Chain');
+const Restaurant = require('../models/Restaurant');
 
 
 //GET CHAINS
 router.get('/', async (req, res) => {
   try{
-    const chains = await Chain.find();
-    res.status(200).json(chains);
-    console.log(chains)
-  } catch(err){
+    const chains = await Chain.find().populate('restaurants');
+    res.status(200).json(chains)
+  } catch(err){ 
     res.status(500).json(err)
   }
 })
@@ -20,12 +20,11 @@ router.post('/', async (req, res) => {
   const { name, restaurants } = req.body; 
   try{
     const createdChain = await Chain.create({
-      name,
-      restaurants
+      name
     }) 
     res.status(200).json({ message: `${createdChain.name} has been added to Restaurant Chain`, createdChain})
   } catch(err){
-    res.status(500).json({ message: 'Something went wrong while adding a new Restaurant Chain', error });
+    res.status(500).json({ message: 'Something went wrong while adding a new Restaurant Chain', err });
   }
 })
 

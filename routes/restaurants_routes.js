@@ -2,13 +2,15 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const Restaurant = require('../models/Restaurant');
+const Chain = require('../models/Chain');
+
 
 
 //GET RESTAURANTS
 router.get('/', async (req, res) => {
   try{
     const restaurants = await Restaurant.find();
-    res.status(200).json(restaurants);
+    res.status(200).json(restaurants)
   } catch(err){
     res.status(500).json(err)
   }
@@ -18,14 +20,17 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
   const { name, location, chain } = req.body; 
   try{
-    const createdRestaurant = await Restaurant.create({
+    const createRestaurantAndAddToChainArray = await Restaurant.create({
       name,
       location,
       chain
-    }) 
-    res.status(200).json({ message: `${createdRestaurant.name} has been added to Restaurants`, createdRestaurant})
+    }).then(restaurant => {
+      return Chain.findByIdAndUpdate(restaurant.chain, {$push: { restaurants: restaurant}})
+    })
+    .catch(err => console.log('Error while pushing', err))
+    res.status(200).json({ message: `${name} has been added to Restaurants of ${createRestaurantAndAddToChainArray.name}`})
   } catch(err){
-    res.status(500).json({ message: 'Something went wrong while adding a new Restaurant', error });
+    res.status(500).json({ message: 'Something went wrong while adding a new Restaurant', err });
   }
 })
 

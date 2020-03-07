@@ -6,7 +6,7 @@ const chainSchema = new Schema({
     type: String,
     required: true,
   },
-  restaurants: [{ type: String, required: true}],
+  restaurants: [{ type: Schema.Types.ObjectId, required: true, ref: 'Restaurant' }],
 }, {
   timestamps: {
     createdAt: "created_at",
