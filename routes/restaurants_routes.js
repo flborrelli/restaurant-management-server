@@ -83,11 +83,20 @@ router.patch("/:restaurantId", async (req, res) => {
 
 //DELETE A RESTAURANT
 router.delete("/:restaurantId", async (req, res) => {
+  if(!mongoose.Types.ObjectId.isValid(req.params.restaurantId)) {
+    res.status(400).json({ message: 'Specified id is not valid' });
+    return;
+  }
   try {
-    const removedRestaurant = await Restaurant.remove({
-      _id: req.params.restaurantId
-    });
-    res.status(200).json({ message: `Restaurant successfully deleted` });
+    await Restaurant.findById(req.params.restaurantId)
+    .then(restaurant => {
+      return Chain.findByIdAndUpdate(restaurant.chain, {
+        $pull: { restaurants: req.params.restaurantId }
+      })
+    })
+    .catch(err => console.log('error while pulling:', err))
+    await Restaurant.findByIdAndDelete(req.params.restaurantId)
+    res.status(200).json({ message: `Restaurant successfully deleted` })
   } catch (err) {
     res
       .status(500)
